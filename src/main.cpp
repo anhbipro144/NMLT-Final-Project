@@ -12,56 +12,68 @@
 
 using namespace ftxui;
 
+ bool matches_filter(const Book& b, const Filter& filter) {
+  if (!filter.title.empty() &&
+      to_lower(b.title_).find(to_lower(filter.title)) == std::string::npos)
+    return false;
+
+  if (!filter.author.empty() &&
+      to_lower(b.author_).find(to_lower(filter.author)) == std::string::npos)
+    return false;
+
+  if (!filter.year.empty() &&
+      to_lower(std::to_string(b.year_)).find(to_lower(filter.year)) == std::string::npos)
+    return false;
+
+  if (!filter.isbn.empty() &&
+      to_lower(b.isbn_).find(to_lower(filter.isbn)) == std::string::npos)
+    return false;
+
+  if (!filter.price.empty() &&
+      to_lower(std::to_string(b.price_)).find(to_lower(filter.price)) == std::string::npos)
+    return false;
+
+  return true;
+}
+
+ std::vector<const Book*> filter_books(const std::vector<Book>& books, const Filter& filter) {
+  std::vector<const Book*> out;
+  out.reserve(books.size());
+  for (const auto& b : books) {
+    if (matches_filter(b, filter))
+      out.push_back(&b);
+  }
+  return out;
+}
+
+
+
 Component create_book_list_component(std::shared_ptr<std::vector<Book>> books,
                                      Filter &filter, int page_size,
                                      int &current_page) {
   return Renderer([books, &filter, page_size, &current_page] {
     Elements rows;
 
+    auto filtered = filter_books(*books, filter);
+
     // iterator
-    auto begin = books->begin() + current_page * page_size;
-    auto end = std::min(begin + page_size, books->end());
+    int total_pages = (filtered.size() + page_size - 1) / page_size;
 
-    for (auto it = begin; it != end; ++it) {
-      bool matches = true;
+    if (current_page >= total_pages) {
+      current_page = std::max(0, total_pages - 1);
+    }
 
-      if (!filter.title.empty() &&
-          to_lower(it->title_).find(to_lower(filter.title)) ==
-              std::string::npos) {
-        matches = false;
-      }
-      if (!filter.author.empty() &&
-          to_lower(it->author_).find(to_lower(filter.author)) ==
-              std::string::npos) {
-        matches = false;
-      }
+    int start = current_page * page_size;
+    int end = std::min(start + page_size, static_cast<int>(filtered.size()));
 
-      if (!filter.year.empty() &&
-          to_lower(std::to_string(it->year_)).find(to_lower(filter.year)) ==
-              std::string::npos) {
-        matches = false;
-      }
+    for (int i = start; i < end; ++i) {
+      const Book& book = *filtered[i];
 
-      if (!filter.isbn.empty() && to_lower(it->isbn_).find(to_lower(
-                                      filter.isbn)) == std::string::npos) {
-        matches = false;
-      }
-
-      if (!filter.price.empty() &&
-          to_lower(std::to_string(it->price_)).find(to_lower(filter.price)) ==
-              std::string::npos) {
-        matches = false;
-      }
-
-      if (!matches)
-        continue;
-
-      auto title =
-          AsciiArtElement(make_ascii(it->title_, Font::larry3d)) | center;
-      auto author = text(it->author_) | center;
-      auto year = text(std::to_string(it->year_)) | center;
-      auto price = text(std::to_string(it->price_)) | center;
-      auto isbn = text(it->isbn_) | center;
+      auto title = AsciiArtElement(make_ascii(book.title_, Font::larry3d)) | center;
+      auto author = text(book.author_) | center;
+      auto year = text(std::to_string(book.year_)) | center;
+      auto price = text(std::to_string(book.price_)) | center;
+      auto isbn = text(book.isbn_) | center;
       auto wrapper = vbox(author, year, price, isbn);
 
       rows.push_back(vbox({title, separator(), wrapper}) | border |
