@@ -34,7 +34,7 @@ target_include_directories(libfiglet INTERFACE
   "${CMAKE_SOURCE_DIR}/include"
 )
 
-add_executable(ftxui_example
+add_executable(final_project
   ./src/main.cpp
   ./src/ascii.cpp
   ./src/utils.cpp
@@ -43,7 +43,7 @@ add_executable(ftxui_example
 
 
 # Link the executable against the FTXUI modules: screen, dom, and component
-target_link_libraries(ftxui_example PRIVATE
+target_link_libraries(final_project PRIVATE
   ftxui::screen
   ftxui::dom
   ftxui::component
