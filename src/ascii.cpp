@@ -1,8 +1,7 @@
 #include "ascii.hpp"
 #include "ftxui/component/component.hpp"
+#include "libfiglet.hpp"
 #include <ftxui/dom/node.hpp>
-#include <libfiglet.hpp>
-#include <magic_enum/magic_enum.hpp>
 #include <string>
 
 using namespace srilakshmikanthanp::libfiglet;
@@ -18,7 +17,7 @@ std::string font_to_filename(Font f) {
 std::string make_ascii(const std::string &text, Font font) {
   std::string filename = font_to_filename(font);
 
-  std::string path = "../libfiglet/dist/fonts/" + filename;
+  std::string path = "../build/_deps/libfiglet_src-src/dist/fonts/" + filename;
 
   figlet renderer(flf_font::make_shared(path), smushed::make_shared());
   return renderer(text);
