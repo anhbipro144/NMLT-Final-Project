@@ -1,0 +1,116 @@
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Diagnostic reports
+report.*.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules
+bower_components
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Build outputs and caches
+dist/
+build/
+out/
+tmp/
+tmp-*/
+temp/
+.temp/
+.tmp/
+.cache/
+.parcel-cache/
+.vite/
+.svelte-kit/
+storybook-static/
+
+# Frameworks
+.next/
+.nuxt/
+.gatsby/
+.gatsby-cache/
+
+# Hosting/platform
+.vercel/
+.netlify/
+
+# Tooling
+.turbo/
+.nx/cache/
+
+# Test tooling
+cypress/screenshots/
+cypress/videos/
+playwright-report/
+test-results/
+playwright/.cache/
+
+# TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Linters/formatters
+.eslintcache
+.stylelintcache
+
+# Package manager caches
+.npm/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+.pnp.cjs
+# Note: keep .yarn releases/plugins if using Yarn Berry (do not ignore the whole .yarn directory)
+
+# Environment files
+.env
+.env.local
+.env.*.local
+.envrc
+# Keep shared examples in git:
+!.env.example
+!.env.sample
+!.env.defaults
+
+# Editors/OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+!.vscode/extensions.json
+*.iml
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# REPL history
+.node_repl_history
+
+# npm pack output
+*.tgz
+
+# Serverless
+.serverless/
+.aws-sam/
+
+# Firebase
+.firebase/
+
+# Mutation testing
+.stryker-tmp/
